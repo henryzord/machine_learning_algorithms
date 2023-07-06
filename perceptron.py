@@ -13,9 +13,6 @@ class Perceptron(object):
     """
     A perceptron with online updating.
     """
-    X = np.array([])
-    Y = np.array([])
-    W = np.array([])
 
     def __init__(self):
         self.W = None  # type: np.ndarray
@@ -32,21 +29,19 @@ class Perceptron(object):
         :param epochs: optional: how many steps to update the weights. Defaults to 100.
         """
         if self.W is None:
-            self.W = np.ones(x_train.shape[1] + 1).astype(float)
+            self.W = np.random.random(x_train.shape[1] + 1).astype(float)
         X = np.hstack((np.ones((x_train.shape[0], 1)), x_train)).astype(float)
         Y, self.label2id, self.id2label = Perceptron.__string_to_int__(y_train)
 
-        W = np.array(self.W)
         iteration = 0
 
         while iteration < epochs:
             for i, x in enumerate(X):
-                h = Perceptron.__predict__(x, W)
+                h = Perceptron.__predict__(x, self.W)
                 j = Perceptron.__cost_function__(1, h, Y[i])
                 if j > 0:
-                    W = Perceptron.__update_theta__(lr, W, h, x, Y[i])
+                    W = Perceptron.__update_theta__(lr, self.W, h, x, Y[i])
             iteration += 1
-        self.W = W
 
         return self
 
@@ -87,16 +82,14 @@ class Perceptron(object):
         return Y, label2id, id2label
 
 
-def plot_model(model, x, y):
+def plot_model(fig, ax, title, model, x, y):
     x_axis = np.linspace(np.min(x), np.max(y) + 1)
     y_axis = model.predict(x_axis)
 
-    fig, ax = plt.subplots()
-
     ax.plot(x_axis, y_axis, label='h(x)', c='#F2D0A4', zorder=0)
     ax.scatter(x, y, label='y', c='#C03221', zorder=1)
+    ax.set_title(title)
     fig.legend()
-    plt.show()
 
 
 def main(path_dataset: str = None):
@@ -110,10 +103,24 @@ def main(path_dataset: str = None):
         x_train = dataset[dataset.columns[:-1]]
         y_train = dataset[dataset.columns[-1]]
 
-    model = model.fit(x_train, y_train, lr=0.01, epochs=100)
+    fig, ax = plt.subplots(nrows=2)
+    ax = np.ravel(ax)
 
-    print(f'Model weights: {model.W}')
-    plot_model(model, x_train, y_train)
+    epochs = 2
+    model = model.fit(x_train, y_train, lr=0.01, epochs=epochs)
+    plot_model(
+        fig, ax[0],
+        f'model trained for {epochs} epochs\nModel weights: {np.around(model.W, 2)}', model, x_train, y_train
+    )
+
+    epochs = 98
+    model = model.fit(x_train, y_train, lr=0.01, epochs=epochs)
+    plot_model(
+        fig, ax[1],
+        f'model trained for {epochs} epochs\nModel weights: {np.around(model.W, 2)}', model, x_train, y_train
+    )
+    plt.tight_layout()
+    plt.show()
 
 
 if __name__ == '__main__':
