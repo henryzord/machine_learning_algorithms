@@ -1,4 +1,4 @@
-__author__ = 'Henry'
+from __init__ import __author__, __version__
 
 import numpy as np
 
@@ -94,10 +94,8 @@ class MarginalEDA:
             population = MarginalEDA.__sample__(pop_size, self.weights)
             iteration += 1
 
-        print 'data at', iteration, 'iterations:'
-        print 'probability array:', self.weights[:, 1]
-
-        # print 'population:\n', population
+        print('data at', iteration, 'iterations:')
+        print('probability array:', self.weights[:, 1])
 
 
 def fitness_function(individual):
@@ -114,4 +112,6 @@ def main():
     my_eda.converge(pop_size, fitness_function, 100)
 
 
-main()
+if __name__ == '__main__':
+    main()
+

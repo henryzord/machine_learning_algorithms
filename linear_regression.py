@@ -1,4 +1,4 @@
-__author__ = 'Henry'
+from __init__ import __author__, __version__
 
 from matplotlib import pyplot as plt
 import numpy as np
@@ -57,7 +57,7 @@ class LinearRegression:
 			for i, w in enumerate(self.W):
 				derivated = LinearRegression.__derived__(i, X, self.W, self.Y)
 				_W[i] = w - ((float(alpha) / float(N)) * derivated)
-			print 'cost:', current_error, 'W:', self.W, 'H:', H
+			print('cost:', current_error, 'W:', self.W, 'H:', H)
 
 		return self
 
@@ -135,6 +135,7 @@ class LinearRegression:
 	'''
 	modes = {'gradient': __train_gradient__, 'normal': __train_normal__}
 
+
 def main():
 	"""
 	Restrictions:
@@ -156,10 +157,12 @@ def main():
 
 	model.train('normal')
 	normal_y = model.test(x_axis)
-	print 'normal:', model.W
+	print('normal:', model.W)
 	model.train('gradient', alpha=0.1)
 	gradient_y = model.test(x_axis)
 
 	model.plot(x_axis, {'normal': normal_y, 'gradient': gradient_y})
 
-main()
+
+if __name__ == '__main__':
+	main()
