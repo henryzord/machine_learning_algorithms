@@ -1,6 +1,6 @@
 # Machine Learning 2015
 
-Algorithms developed by Henry Cagnini me for the Machine Learning class of professor Dr. Rodrigo Coelho Barros,
+Algorithms developed by Henry Cagnini for the Machine Learning class of professor Dr. Rodrigo Coelho Barros,
 taught at Pontifical Catholic University of Rio Grande do Sul (PUCRS) in the first semester of 2015. Part of the then 
 active Specialization in Data Science Course.
 
